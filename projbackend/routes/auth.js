@@ -1,7 +1,7 @@
 var express = require("express");
 const { check, validationResult } = require("express-validator");
 var router = express();
-const { signout, signup } = require("../controllers/auth");
+const { signout, signup, signin } = require("../controllers/auth");
 
 router.post(
   "/signup",
@@ -17,6 +17,18 @@ router.post(
       .withMessage("Password should be greater than 5 character"),
   ],
   signup
+);
+
+router.post(
+  "/signin",
+  [
+    check("email").isEmail().withMessage("Email is required"),
+
+    check("password")
+      .isLength({ min: 5 })
+      .withMessage("password field is required"),
+  ],
+  signin
 );
 router.get("/signout", signout);
 

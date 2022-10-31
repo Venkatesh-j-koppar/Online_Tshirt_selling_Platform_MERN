@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/user");
 var jwt = require("jsonwebtoken");
+var expressjwt = require("express-jwt");
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
@@ -67,3 +68,11 @@ exports.signout = (req, res) => {
     message: "User signout successfully",
   });
 };
+
+//protected routes
+exports.isSignedIn = expressjwt({
+  secret: process.env.SECRET,
+  userProperty: "auth",
+});
+
+// custom middleware

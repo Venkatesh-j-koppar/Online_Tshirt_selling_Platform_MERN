@@ -29,6 +29,15 @@ exports.createProduct = (req, res) => {
       });
     }
 
+    //destructure the fields
+    const { name, description, price, category, stock } = fields;
+
+    if (!name || !description || !price || !category || !stock) {
+      res.status(400).send({
+        error: "Please Include Fields",
+      });
+    }
+
     //TODO restrictions on field
     let product = new Product(fields);
 

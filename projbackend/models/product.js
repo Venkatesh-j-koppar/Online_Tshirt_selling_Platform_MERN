@@ -30,6 +30,7 @@ const productSchema = new mongoose.Schema(
     },
     sold: {
       type: Number,
+      default: 0,
     },
     photo: {
       data: Buffer,
@@ -39,4 +40,4 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports=mongoose.model("Product",productSchema)
+module.exports = mongoose.model("Product", productSchema);

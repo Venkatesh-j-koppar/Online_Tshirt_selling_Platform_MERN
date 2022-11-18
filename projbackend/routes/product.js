@@ -9,7 +9,8 @@ const {
   photo,
   deleteProduct,
   updateProduct,
-  getAllProducts
+  getAllProducts,
+  getAllUniqueCategories
 } = require("../controllers/product");
 
 // all of params
@@ -50,5 +51,7 @@ router.put(
 
 //listing Route
 router.get("/products", getAllProducts);
+
+router.get("/products/categories", getAllUniqueCategories);
 
 module.exports = router;

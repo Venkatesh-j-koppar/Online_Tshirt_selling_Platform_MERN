@@ -50,7 +50,7 @@ exports.updateCategory = (req, res) => {
         error: "Failed to update category",
       });
     }
-    res.json(updatedCategory);
+    res.json({ updatedCategory });
   });
 };
 

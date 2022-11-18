@@ -66,7 +66,7 @@ exports.createProduct = (req, res) => {
 };
 
 exports.getProduct = (req, res) => {
-  re.product.photo = undefined;
+  req.product.photo = undefined;
   return res.json(req.product);
 };
 
@@ -153,4 +153,35 @@ exports.getAllProducts = (req, res) => {
       }
       res.json(products);
     });
+};
+
+exports.getAllUniqueCategories = (req, res) => {
+  Product.distinct("category", {}, (err, category) => {
+    if (err) {
+      res.status(400).json({
+        error: "No Category found",
+      });
+    }
+    res.json(category)
+  });
+};
+
+exports.updateStock = (req, res, next) => {
+  let myOperations = req.body.order.products.map((prod) => {
+    return {
+      updateOne: {
+        filter: { _id: prod._id },
+        update: { $inc: { stock: -prod.count, sold: +prod.count } },
+      },
+    };
+  });
+
+  Product.bulkWrite(myOperations, {}, (err, products) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Bulk Operations Failed",
+      });
+    }
+    next();
+  });
 };

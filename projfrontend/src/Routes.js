@@ -5,9 +5,9 @@ import Home from "./core/Home";
 export default function Routes() {
   return (
     <BrowserRouter>
-      <switch>
+      <Switch>
         <Route path="/" exact component={Home} />
-      </switch>
+      </Switch>
     </BrowserRouter>
   );
 }

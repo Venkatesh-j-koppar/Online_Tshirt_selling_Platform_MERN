@@ -7,8 +7,6 @@ export default function Home() {
   console.log("Hello");
   console.log("API IS", { API });
   return (
-    <Base>
-      <h1 className="text-white">Hello front End {API}</h1>
-    </Base>
+    <Base title="Home Page" description="Welcome to the Tshirt Store"></Base>
   );
 }

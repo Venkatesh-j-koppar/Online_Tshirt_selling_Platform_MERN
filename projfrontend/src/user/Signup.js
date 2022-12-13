@@ -3,6 +3,20 @@ import Base from "../core/Base";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    error: "",
+    success: true,
+  });
+
+  const { name, email, password, error, success } = values;
+
+  const handleChange = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value});
+  };
+
   const signuUpForm = () => {
     return (
       <div className="row">

@@ -9,7 +9,7 @@ const Signup = () => {
     email: "",
     password: "",
     error: "",
-    success: true,
+    success: false,
   });
 
   const { name, email, password, error, success } = values;
@@ -50,6 +50,7 @@ const Signup = () => {
                 className="form-control"
                 onChange={handleChange("name")}
                 type="text"
+                value={name}
               ></input>
             </div>
             <div className="form-group my-2">
@@ -58,6 +59,7 @@ const Signup = () => {
                 className="form-control"
                 onChange={handleChange("email")}
                 type="email"
+                value={email}
               ></input>
             </div>
             <div className="form-group my-2">
@@ -66,18 +68,50 @@ const Signup = () => {
                 className="form-control"
                 onChange={handleChange("password")}
                 type="password"
+                value={password}
               ></input>
             </div>
-            <button className="btn btn-success btn-block my-2">Submit</button>
+            <button
+              className="btn btn-success btn-block my-2 "
+              onClick={onSubmit}
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
     );
   };
 
+  const successMessage = () => {
+    return (
+      <div
+        className="alert alert-success"
+        style={{ display: success ? "" : "none" }}
+      >
+        New account was created succssfully. Please{" "}
+        <Link to="/signin">Login Here</Link>
+      </div>
+    );
+  };
+
+  const errorMessage = () => {
+    return (
+      <div
+        className="alert alert-danger"
+        style={{ display: error ? "" : "none" }}
+      >
+        {error}
+      </div>
+    );
+  };
+
   return (
     <Base title="Sign up page" description="A page for user to sign up!">
+      {successMessage()}
+      {errorMessage()}
       {signuUpForm()}
+      <p className="text-white text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };

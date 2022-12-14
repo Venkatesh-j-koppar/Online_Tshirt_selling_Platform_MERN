@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
+import { signup } from "../auth/helper";
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -14,7 +15,28 @@ const Signup = () => {
   const { name, email, password, error, success } = values;
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, error: false, [name]: event.target.value});
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: false });
+    signup({ name, email, password })
+      .then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error, success: false });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            email: "",
+            password: "",
+            error: "",
+            success: true,
+          });
+        }
+      })
+      .catch(console.log("Error in signup"));
   };
 
   const signuUpForm = () => {
@@ -24,15 +46,27 @@ const Signup = () => {
           <form>
             <div className="form-group my-2">
               <label className="text-light">Name</label>
-              <input className="form-control" type="text"></input>
+              <input
+                className="form-control"
+                onChange={handleChange("name")}
+                type="text"
+              ></input>
             </div>
             <div className="form-group my-2">
               <label className="text-light">Email</label>
-              <input className="form-control" type="email"></input>
+              <input
+                className="form-control"
+                onChange={handleChange("email")}
+                type="email"
+              ></input>
             </div>
             <div className="form-group my-2">
               <label className="text-light">Password</label>
-              <input className="form-control" type="password"></input>
+              <input
+                className="form-control"
+                onChange={handleChange("password")}
+                type="password"
+              ></input>
             </div>
             <button className="btn btn-success btn-block my-2">Submit</button>
           </form>

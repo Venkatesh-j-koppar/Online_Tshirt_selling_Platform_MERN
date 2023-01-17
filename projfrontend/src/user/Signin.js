@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Base from "../core/Base";
 import { Link, Redirect } from "react-router-dom";
+
 import { signin, authenticate, isAutheticated } from "../auth/helper";
 
 const Signin = () => {
@@ -15,19 +16,30 @@ const Signin = () => {
   const { email, password, error, loading, didRedirect } = values;
   const { user } = isAutheticated();
 
+  const performRedirect = () => {
+    if (didRedirect) {
+      if (user && user.role == 1) {
+        return <p>redirect to admin</p>;
+      } else {
+        return <p>redirect to user dashboard</p>;
+      }
+    }
+    if (isAutheticated()) {
+      return <Redirect to="/" />;
+    }
+  };
+
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  const successMessage = () => {
+  const loadingMessage = () => {
     return (
-      <div
-        className="alert alert-success"
-        style={{ display: success ? "" : "none" }}
-      >
-        New account was created succssfully. Please{" "}
-        <Link to="/signin">Login Here</Link>
-      </div>
+      loading && (
+        <div className="alert alert-info">
+          <h2>Loading...</h2>
+        </div>
+      )
     );
   };
 
@@ -42,16 +54,23 @@ const Signin = () => {
     );
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (e) => {
+    e.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password })
       .then((data) => {
         if (data.error) {
-          setValues({ ...values, error: false, loading: true });
+          setValues({ ...values, error: data.error, loading: false });
+        } else {
+          authenticate(data, () => {
+            setValues({
+              ...values,
+              didRedirect: true,
+            });
+          });
         }
       })
-      .catch();
+      .catch(console.log("Signin request Failed"));
   };
 
   const signInForm = () => {
@@ -59,28 +78,26 @@ const Signin = () => {
       <div className="row">
         <div className="col-md-6 offset-sm-3 text-left">
           <form>
-            <div className="form-group my-2">
+            <div className="form-group">
               <label className="text-light">Email</label>
               <input
-                value={email}
-                onChange={handleChange("email")}
                 className="form-control"
                 type="email"
-              ></input>
+                value={email}
+                onChange={handleChange("email")}
+              />
             </div>
-            <div className="form-group my-2">
+
+            <div className="form-group">
               <label className="text-light">Password</label>
               <input
                 className="form-control"
                 type="password"
-                value={password}
                 onChange={handleChange("password")}
-              ></input>
+                value={password}
+              />
             </div>
-            <button
-              className="btn btn-success btn-block my-2"
-              onClick={onSubmit}
-            >
+            <button className="btn btn-success btn-block" onClick={onSubmit}>
               Submit
             </button>
           </form>
@@ -90,8 +107,11 @@ const Signin = () => {
   };
 
   return (
-    <Base title="Sign in page" description="A page for user to sign in!">
+    <Base title="Sign In page" description="A page for user to sign in!">
+      {loadingMessage()}
+      {errorMessage()}
       {signInForm()}
+      {performRedirect()}
     </Base>
   );
 };

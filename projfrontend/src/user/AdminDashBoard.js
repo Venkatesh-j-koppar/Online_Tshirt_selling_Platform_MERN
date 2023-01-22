@@ -39,7 +39,22 @@ function Admin() {
   };
 
   const adminRightSide = () => {
-    
+    return (
+      <div className="card mb-4">
+        <h4 className="card-header">Admin Information</h4>
+
+        <ul className="list-group">
+          <li className="list-group-item">
+            <span className="badge badge-success">Success</span>
+            {name}
+          </li>
+          <li className="list-group-item">
+            <span className="badge badge-success mr-2">Email:</span>
+            {email}
+          </li>
+        </ul>
+      </div>
+    );
   };
 
   return (

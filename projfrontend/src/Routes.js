@@ -8,6 +8,8 @@ import UserDashBoard from "./user/UserDashBoard";
 import AdminRoutes from "./auth/helper/AdminRoutes";
 import AdminDashBoard from "./user/AdminDashBoard";
 import AddCategory from "./admin/AddCategory";
+import ManagaeCategory from "./admin/ManagaeCategory";
+import AddProduct from "./admin/AddProduct";
 
 export default function Routes() {
   return (
@@ -22,6 +24,16 @@ export default function Routes() {
           path="/admin/create/category"
           exact
           component={AddCategory}
+        />
+        <AdminRoutes
+          path="/admin/categories"
+          exact
+          component={ManagaeCategory}
+        />
+        <AdminRoutes
+          path="/admin/create/product"
+          exact
+          component={AddProduct}
         />
       </Switch>
     </BrowserRouter>

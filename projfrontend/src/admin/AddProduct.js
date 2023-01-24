@@ -20,7 +20,7 @@ function AddProduct() {
     <form>
       <span>Post photo</span>
       <div className="form-group">
-        <label className="btn btn-block btn-success">
+        <label className="btn btn-block btn-success w-100">
           <input
             onChange={handleChange("photo")}
             type="file"
@@ -34,7 +34,7 @@ function AddProduct() {
         <input
           onChange={handleChange("name")}
           name="photo"
-          className="form-control"
+          className="form-control my-3"
           placeholder="Name"
           value={name}
         />
@@ -43,7 +43,7 @@ function AddProduct() {
         <textarea
           onChange={handleChange("description")}
           name="photo"
-          className="form-control"
+          className="form-control my-3"
           placeholder="Description"
           value={description}
         />
@@ -52,7 +52,7 @@ function AddProduct() {
         <input
           onChange={handleChange("price")}
           type="number"
-          className="form-control"
+          className="form-control my-3"
           placeholder="Price"
           value={price}
         />
@@ -60,7 +60,7 @@ function AddProduct() {
       <div className="form-group">
         <select
           onChange={handleChange("category")}
-          className="form-control"
+          className="form-control my-3"
           placeholder="Category"
         >
           <option>Select</option>
@@ -72,7 +72,7 @@ function AddProduct() {
         <input
           onChange={handleChange("quantity")}
           type="number"
-          className="form-control"
+          className="form-control my-3"
           placeholder="Quantity"
           value={stock}
         />
@@ -81,7 +81,7 @@ function AddProduct() {
       <button
         type="submit"
         onClick={onSubmit}
-        className="btn btn-outline-success"
+        className="btn btn-outline-success my-3"
       >
         Create Product
       </button>

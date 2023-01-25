@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Base from "../core/Base";
+import { getCategories, createaProduct } from "./helper/adminapicall";
+import { isAutheticated } from "../auth/helper";
 
 function AddProduct() {
-  const [value, setvalue] = useState({
+  const { user, token } = isAutheticated();
+
+  const [values, setvalues] = useState({
     name: "",
     description: "",
     price: "",
@@ -15,7 +19,7 @@ function AddProduct() {
     error: "",
     createdProduct: "",
     getaRedirect: false,
-    formData: "",
+    formData: new FormData(),
   });
 
   const {
@@ -30,10 +34,61 @@ function AddProduct() {
     createdProduct,
     getaRedirect,
     formData,
-  } = value;
+  } = values;
 
-  const onSubmit = () => {};
-  const handleChange = (name) => (event) => {};
+  const preload = () => {
+    getCategories().then((data) => {
+      console.log("hello");
+      if (data.error) {
+        setvalues({ ...values, error: data.error });
+      } else {
+        setvalues({ ...values, categories: data, formData: new FormData() });
+      }
+    });
+  };
+
+  useEffect(() => {
+    preload();
+  }, []);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setvalues({ ...values, error: "", loading: true });
+    createaProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setvalues({ ...values, error: data.error });
+      } else {
+        setvalues({
+          ...values,
+          name: "",
+          description: "",
+          price: "",
+          photo: "",
+          stock: "",
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
+  };
+
+  const successMessage = () => {
+    return (
+      <div
+        className="alert alert-success mt-3"
+        style={{ display: createdProduct ? "" : "none" }}
+      >
+        <h4>{createaProduct} created Product successfully</h4>
+      </div>
+    );
+  };
+
+  const handleChange = (name) => (event) => {
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+
+    formData.set(name, value);
+    setvalues({ ...values, [name]: value });
+  };
   const AddProduct = () => {};
 
   const createProductForm = () => (
@@ -84,13 +139,19 @@ function AddProduct() {
           placeholder="Category"
         >
           <option>Select</option>
-          <option value="a">a</option>
-          <option value="b">b</option>
+          {categories &&
+            categories.map((cate, index) => {
+              return (
+                <option key={index} value={cate._id}>
+                  {cate.name}
+                </option>
+              );
+            })}
         </select>
       </div>
       <div className="form-group">
         <input
-          onChange={handleChange("quantity")}
+          onChange={handleChange("stock")}
           type="number"
           className="form-control my-3"
           placeholder="Quantity"
@@ -117,7 +178,10 @@ function AddProduct() {
         Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
-        <div className="col-md-8 offset-md-2">{createProductForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {successMessage()}
+          {createProductForm()}
+        </div>
       </div>
     </Base>
   );

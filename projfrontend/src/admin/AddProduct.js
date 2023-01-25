@@ -8,9 +8,29 @@ function AddProduct() {
     description: "",
     price: "",
     stock: "",
+    photo: "",
+    categories: [],
+    category: "",
+    loading: false,
+    error: "",
+    createdProduct: "",
+    getaRedirect: false,
+    formData: "",
   });
 
-  const { name, description, price, stock } = value;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    categories,
+    category,
+    loading,
+    error,
+    createdProduct,
+    getaRedirect,
+    formData,
+  } = value;
 
   const onSubmit = () => {};
   const handleChange = (name) => (event) => {};

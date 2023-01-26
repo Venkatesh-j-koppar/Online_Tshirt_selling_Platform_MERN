@@ -38,7 +38,6 @@ function AddProduct() {
 
   const preload = () => {
     getCategories().then((data) => {
-      console.log("hello");
       if (data.error) {
         setvalues({ ...values, error: data.error });
       } else {
@@ -79,6 +78,17 @@ function AddProduct() {
         style={{ display: createdProduct ? "" : "none" }}
       >
         <h4>{createaProduct} created Product successfully</h4>
+      </div>
+    );
+  };
+
+  const errorMessage = () => {
+    return (
+      <div
+        className="alert alert-danger mt-3"
+        style={{ display: error ? "" : "none" }}
+      >
+        <h4>Something Went Wrong</h4>
       </div>
     );
   };
@@ -180,6 +190,7 @@ function AddProduct() {
       <div className="row bg-dark text-white rounded">
         <div className="col-md-8 offset-md-2">
           {successMessage()}
+          {errorMessage()}
           {createProductForm()}
         </div>
       </div>

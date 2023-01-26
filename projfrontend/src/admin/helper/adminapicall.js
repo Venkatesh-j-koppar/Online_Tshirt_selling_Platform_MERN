@@ -97,7 +97,7 @@ export const updateaProduct = (productId, userId, token, product) => {
 
 // delete a product
 export const deleteaProduct = (productId, userId, token) => {
-  return fetch(`${API}/product/${productId}/${userId}`, {
+  return fetch(`${API}product/${productId}/${userId}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",

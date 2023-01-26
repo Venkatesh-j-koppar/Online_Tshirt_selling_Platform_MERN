@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
+import { isAutheticated } from "../auth/helper";
+import { getProduct } from "./helper/adminapicall";
+import { deleteaProduct } from "./helper/adminapicall";
 
 function ManageProducts() {
+  const [products, setProducts] = useState([]);
+
+  const { user, token } = isAutheticated();
+
+  const preload = () => {
+    getProduct().then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setProducts(data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    preload();
+  }, []);
+
+  const deleteThisProduct = (productId) => {
+    deleteaProduct(productId, user._id, token).then((data) => {
+      console.log(data);
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        preload();
+      }
+    });
+  };
+
   return (
     <Base title="Welcome admin" description="Manage products here">
       <h2 className="mb-4">All products:</h2>
@@ -13,24 +45,33 @@ function ManageProducts() {
         <div className="col-12">
           <h2 className="text-center text-white my-3">Total 3 products</h2>
 
-          <div className="row text-center mb-2 ">
-            <div className="col-4">
-              <h3 className="text-white text-left">I write code</h3>
-            </div>
-            <div className="col-4">
-              <Link
-                className="btn btn-success"
-                to={`/admin/product/update/productId`}
-              >
-                <span className="">Update</span>
-              </Link>
-            </div>
-            <div className="col-4">
-              <button onClick={() => {}} className="btn btn-danger">
-                Delete
-              </button>
-            </div>
-          </div>
+          {products.map((product, index) => {
+            return (
+              <div key={index} className="row text-center mb-2 ">
+                <div className="col-4">
+                  <h3 className="text-white text-left">{product.name}</h3>
+                </div>
+                <div className="col-4">
+                  <Link
+                    className="btn btn-success"
+                    to={`/admin/product/update/productId`}
+                  >
+                    <span className="">Update</span>
+                  </Link>
+                </div>
+                <div className="col-4">
+                  <button
+                    onClick={() => {
+                      deleteThisProduct(product._id);
+                    }}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Base>

@@ -81,6 +81,7 @@ exports.photo = (req, res, next) => {
 
 exports.deleteProduct = (req, res) => {
   let product = req.product;
+
   product.remove((err, deletedproduct) => {
     if (err) {
       return res.status(400).json({
@@ -151,7 +152,7 @@ exports.getAllProducts = (req, res) => {
           error: "No product found",
         });
       }
-      res.json(products);
+      res.json(product);
     });
 };
 
@@ -162,7 +163,7 @@ exports.getAllUniqueCategories = (req, res) => {
         error: "No Category found",
       });
     }
-    res.json(category)
+    res.json(category);
   });
 };
 

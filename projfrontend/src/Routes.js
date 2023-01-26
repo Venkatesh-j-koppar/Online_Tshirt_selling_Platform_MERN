@@ -10,6 +10,7 @@ import AdminDashBoard from "./user/AdminDashBoard";
 import AddCategory from "./admin/AddCategory";
 import ManagaeCategory from "./admin/ManagaeCategory";
 import AddProduct from "./admin/AddProduct";
+import ManageProducts from "./admin/ManageProducts";
 
 export default function Routes() {
   return (
@@ -35,6 +36,7 @@ export default function Routes() {
           exact
           component={AddProduct}
         />
+        <AdminRoutes path="/admin/products" exact component={ManageProducts} />
       </Switch>
     </BrowserRouter>
   );

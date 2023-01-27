@@ -31,7 +31,6 @@ exports.createProduct = (req, res) => {
 
     //destructure the fields
     const { name, description, price, category, stock } = fields;
-    console.log(fields);
 
     if (!name || !description || !price || !category || !stock) {
       res.status(400).send({
@@ -51,17 +50,16 @@ exports.createProduct = (req, res) => {
       }
       product.photo.data = fs.readFileSync(file.photo.path);
       product.photo.contentType = file.photo.type;
-
-      //save to DB
-      product.save((err, product) => {
-        if (err) {
-          res.status(400).json({
-            error: "Saving tshirt in DB failed",
-          });
-        }
-        res.json(product);
-      });
     }
+    //save to DB
+    product.save((err, product) => {
+      if (err) {
+        res.status(400).json({
+          error: "Saving tshirt in DB failed",
+        });
+      }
+      res.json(product);
+    });
   });
 };
 
@@ -108,7 +106,6 @@ exports.updateProduct = (req, res) => {
 
     //destructure the fields
     const { name, description, price, category, stock } = fields;
-    console.log(fields);
 
     //TODO restrictions on field
     let product = req.product;
@@ -121,19 +118,20 @@ exports.updateProduct = (req, res) => {
           error: "File Size is too big!",
         });
       }
+
       product.photo.data = fs.readFileSync(file.photo.path);
       product.photo.contentType = file.photo.type;
-
-      //save to DB
-      product.save((err, product) => {
-        if (err) {
-          res.status(400).json({
-            error: "Updation of product failed",
-          });
-        }
-        res.json(product);
-      });
     }
+    //save to DB
+
+    product.save((err, product) => {
+      if (err) {
+        res.status(400).json({
+          error: "Updation of product failed",
+        });
+      }
+      res.json(product);
+    });
   });
 };
 

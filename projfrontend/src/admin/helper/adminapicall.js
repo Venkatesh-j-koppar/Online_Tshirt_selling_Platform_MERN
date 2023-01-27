@@ -66,7 +66,7 @@ export const getProduct = () => {
 // get a proudct
 
 export const getaProduct = (productId) => {
-  return fetch(`${API}/product/${productId}`, {
+  return fetch(`${API}product/${productId}`, {
     method: "GET",
   })
     .then((response) => {
@@ -79,7 +79,7 @@ export const getaProduct = (productId) => {
 
 // update a product
 export const updateaProduct = (productId, userId, token, product) => {
-  return fetch(`${API}/product/${productId}/${userId}`, {
+  return fetch(`${API}product/${productId}/${userId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",

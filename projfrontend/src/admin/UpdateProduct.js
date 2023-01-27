@@ -50,7 +50,7 @@ function UpdateProduct({ match }) {
           name: data.name,
           description: data.description,
           price: data.price,
-          category: data.category._id,
+          category: data.category.name,
           stock: data.stock,
           formData: new FormData(),
         });
@@ -78,7 +78,9 @@ function UpdateProduct({ match }) {
 
   const onSubmit = (event) => {
     event.preventDefault();
+
     setvalues({ ...values, error: "", loading: true });
+
     updateaProduct(match.params.productId, user._id, token, formData).then(
       (data) => {
         if (data.error) {
@@ -179,7 +181,7 @@ function UpdateProduct({ match }) {
             className="form-control my-3"
             placeholder="Category"
           >
-            <option>Select</option>
+            <option>{category != "" ? category : "Select"}</option>
             {categories &&
               categories.map((cate, index) => {
                 return (

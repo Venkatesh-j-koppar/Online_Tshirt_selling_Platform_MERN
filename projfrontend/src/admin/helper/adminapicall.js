@@ -30,6 +30,23 @@ export const getCategories = () => {
     });
 };
 
+// delete a Category /category/:categoryId/:userId
+export const deleteaCategory = (categoryId, userId, token) => {
+  return fetch(`${API}category/${categoryId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 // Products calls
 
 // Create a Product

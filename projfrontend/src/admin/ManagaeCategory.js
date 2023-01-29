@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { isAutheticated } from "../auth/helper";
 import Base from "../core/Base";
 import { getProduct, getCategories } from "./helper/adminapicall";
+import { deleteaCategory } from "./helper/adminapicall";
 
 function ManagaeCategory() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState("defaultValue");
+
+  const { user, token } = isAutheticated();
 
   const preload = () => {
     getProduct().then((data) => {
@@ -25,17 +30,44 @@ function ManagaeCategory() {
   };
 
   const deleteCategory = (category_id) => {
-    products.map((prod) => {
-      console.log();
-      if (prod.category._id === category_id) {
-        console.log("Its Same");
-        return (
-          <h2 className="text-center text-danger my-3">
-            Deletion of Category Not possible
-          </h2>
-        );
-      }
+    let output = products.find((item) => {
+      return item.category._id == category_id;
     });
+    setCategory(output == undefined);
+    if (output == undefined) {
+      deleteaCategory(category_id, user._id, token).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          preload();
+        }
+      });
+    }
+  };
+
+  const deletionMessage = () => {
+    setTimeout(() => {
+      setCategory("defaultValue");
+    }, 7000);
+    if (category == true) {
+      return (
+        <div
+          className="alert alert-success mt-3"
+          style={{ display: category == true ? "" : "none" }}
+        >
+          <h4>Deleted Category successfully</h4>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="alert alert-danger mt-3"
+          style={{ display: category == false ? "" : "none" }}
+        >
+          <h4>Deleted Category unsuccessfully</h4>
+        </div>
+      );
+    }
   };
 
   useEffect(() => {
@@ -50,8 +82,7 @@ function ManagaeCategory() {
       </Link>
       <div className="row">
         <div className="col-12">
-          <h2 className="text-center text-white my-3">Total 3 products</h2>
-          {deleteCategory}
+          {deletionMessage()}
           {categories.map((cate, index) => {
             return (
               <div key={index} className="row text-center mb-2 ">

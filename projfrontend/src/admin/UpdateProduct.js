@@ -140,7 +140,7 @@ function UpdateProduct({ match }) {
         <div className="form-group">
           <label className="btn btn-block btn-success w-100">
             <input
-              onChange={handleChange("photo")}
+              onChange={handleChange("  ")}
               type="file"
               name="photo"
               accept="image"

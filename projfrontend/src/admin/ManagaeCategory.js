@@ -92,7 +92,7 @@ function ManagaeCategory() {
                 <div className="col-4">
                   <Link
                     className="btn btn-success"
-                    to={`/admin/product/update/productId`}
+                    to={`/admin/category/update/${cate._id}`}
                   >
                     <span className="">Update</span>
                   </Link>

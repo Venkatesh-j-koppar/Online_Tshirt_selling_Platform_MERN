@@ -5,6 +5,7 @@ import { addItemToCart } from "../admin/helper/cartHelper";
 
 function Card({ product, addToCart = true, removeFromCart = false }) {
   const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
 
   const addtoCart = () => {
     addItemToCart(product, () => setRedirect(true));

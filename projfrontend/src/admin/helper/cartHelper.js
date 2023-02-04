@@ -17,3 +17,19 @@ export const loadCart = () => {
     }
   }
 };
+
+export const removeItemFromCart = (productId) => {
+  let cart = [];
+
+  if (typeof window != undefined) {
+    if (localStorage.getItem("cart")) {
+      cart = JSON.parse(localStorage.getItem("cart"));
+    }
+  }
+  cart.map((prod, index) => {
+    if (productId == prod._id) {
+      cart.splice(index, 1);
+    }
+  });
+  localStorage.setItem("cart", JSON.stringify(cart));
+};

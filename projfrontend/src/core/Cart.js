@@ -54,7 +54,11 @@ export default function Cart() {
           )}
         </div>
         <div className="col-6">
-          <Payments products={products} setReload={setReload}></Payments>
+          <Payments
+            products={products}
+            setReload={setReload}
+            reload={reload}
+          ></Payments>
         </div>
       </div>
     </Base>

@@ -66,7 +66,7 @@ exports.pushOrderInPurchaseList = (req, res, next) => {
   //store this in DB
   User.findOneAndUpdate(
     { _id: req.profile_id },
-    { $push: { purchases: purchase } },
+    { $push: { purchases: purchases } },
     { new: true },
     (err, purchases) => {
       if (err) {

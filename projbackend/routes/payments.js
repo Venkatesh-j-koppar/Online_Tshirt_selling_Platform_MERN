@@ -5,11 +5,6 @@ const { getToken, processPayment } = require("../controllers/PaymentB");
 
 router.get("/payment/gettoken/:userId", isSignedIn, getToken);
 
-router.post(
-  "/payment/braintree/:userId",
-  isSignedIn,
-  isAuthenticated,
-  processPayment
-);
+router.post("/payment/braintree/:userId", isSignedIn, processPayment);
 
 module.exports = router;

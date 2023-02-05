@@ -15,6 +15,7 @@ exports.getOrderById = (req, res, next, id) => {
 };
 
 exports.createOrder = (req, res) => {
+  console.log("Inside Create order backend");
   req.body.order.user = req.profile;
   const order = new Order(req.body.order);
   order.save((err, order) => {

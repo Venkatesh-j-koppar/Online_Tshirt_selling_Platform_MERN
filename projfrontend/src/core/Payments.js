@@ -6,7 +6,7 @@ import { createOrder } from "./helper/orderHelper";
 import { isAutheticated } from "../auth/helper";
 import DropIn from "braintree-web-drop-in-react";
 
-function Payments({ products, setReload }) {
+function Payments({ products, setReload, reload }) {
   const [info, setInfo] = useState({
     loading: "false",
     success: "false",
@@ -71,6 +71,14 @@ function Payments({ products, setReload }) {
         .then((response) => {
           setInfo({ ...info, success: response.success, loading: false });
           console.log("PAYMENT SUCCESSFULL");
+          const orderData = {
+            products: products,
+            transaction_id: response.transaction.id,
+            amount: response.transaction.amount,
+          };
+          createOrder(userId, token, orderData);
+          cartEmpty(() => {});
+          setReload(!reload);
         })
         .catch((error) => {
           setInfo({ loading: false, success: false });

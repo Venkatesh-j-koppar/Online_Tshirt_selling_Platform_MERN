@@ -4,6 +4,7 @@ import "../styles.css";
 import { API } from "../user/backend";
 import Base from "./Base";
 import Card from "./Card";
+import Payments from "./Payments";
 
 export default function Cart() {
   const [products, setProducts] = useState([]);
@@ -13,7 +14,7 @@ export default function Cart() {
     setProducts(loadCart);
   }, [reload]);
 
-  const loadAllProducts = () => {
+  const loadAllProducts = (products) => {
     return (
       <div>
         <h1> This section is to load products</h1>
@@ -45,8 +46,16 @@ export default function Cart() {
     <Base title="Cart Page" description="Ready to Buy">
       <div className="row text-center">
         <h1 className="text-white">All of tshirts</h1>
-        <div className="col-6">{loadAllProducts()}</div>
-        <div className="col-6">{loadCheckout()}</div>
+        <div className="col-6">
+          {products.length > 0 ? (
+            loadAllProducts(products)
+          ) : (
+            <h3>No Products In Cart</h3>
+          )}
+        </div>
+        <div className="col-6">
+          <Payments products={products} setReload={setReload}></Payments>
+        </div>
       </div>
     </Base>
   );

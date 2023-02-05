@@ -2,18 +2,18 @@ const braintree = require("braintree");
 
 const gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox,
-  merchantId: "useYourMerchantId",
-  publicKey: "useYourPublicKey",
-  privateKey: "useYourPrivateKey",
+  merchantId: "4pbx8z6wm58yrnt8",
+  publicKey: "9f62pxg9bgwnkc74",
+  privateKey: "c3f595e630364da4debf92ff8746a674",
 });
 
 exports.getToken = (req, res) => {
   gateway.clientToken.generate({}, (err, response) => {
     // pass clientToken to your front-end
     if (err) {
-      res.status(500).json(err);
+      res.status(500).send(err);
     } else {
-      res.json(response);
+      res.send(response);
     }
     // const clientToken = response.clientToken;
   });
